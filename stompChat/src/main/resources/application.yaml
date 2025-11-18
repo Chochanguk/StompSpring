@@ -1,0 +1,22 @@
+file:
+  upload-dir: C:/Users/SSAFY/Desktop/StompSpring/stompChat/chat-uploads/   # 파일 저장
+  
+server:
+  port: 8080
+
+spring:
+  data:
+    mongodb:
+      host: localhost
+      port: 27017
+      database: stompchat   # 이름은 아무거나, 예시
+
+  rabbitmq:
+    host: localhost
+    port: 5672
+    username: guest
+    password: guest
+
+  websocket:
+    message-broker:
+      enabled: true

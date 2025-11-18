@@ -1,0 +1,22 @@
+services:
+  rabbitmq:
+    image: rabbitmq:3-management
+    container_name: rabbitmq
+    ports:
+      - "5672:5672"    # AMQP (백엔드에서 사용 가능)
+      - "15672:15672"  # 관리 콘솔 (http://localhost:15672)
+      - "61613:61613"  # STOMP (Spring STOMP Broker Relay)
+    environment:
+      RABBITMQ_DEFAULT_USER: guest
+      RABBITMQ_DEFAULT_PASS: guest
+
+  mongo:
+    image: mongo:7
+    container_name: mongo
+    ports:
+      - "27017:27017"  # MongoDB 기본 포트
+    volumes:
+      - mongo-data:/data/db          # 로컬 볼륨에 데이터 유지
+
+volumes:
+  mongo-data:
