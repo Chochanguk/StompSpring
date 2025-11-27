@@ -2,6 +2,7 @@ package test.chat.stompChat.service;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Service;
 import test.chat.stompChat.model.ChatMessage;
@@ -10,6 +11,7 @@ import test.chat.stompChat.repository.ChatMessageRepository;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -76,4 +78,29 @@ public class ChatMessageService {
         chatMessageRepository.deleteAll();
         log.info("🧨 모든 채팅 메시지 삭제 완료");
     }
+
+    public void softDeleteMessage(String messageId) {
+        Optional<ChatMessage> optional = chatMessageRepository.findById(messageId);
+        if (optional.isPresent()) {
+            ChatMessage msg = optional.get();
+            msg.setDeleted(true);
+            msg.setMessage("삭제된 메시지입니다.");  // 내용 제거 (선택)
+            msg.setFileUrl(null);
+            msg.setFileName(null);
+            chatMessageRepository.save(msg);
+        }
+    }
+
+    public void notifyDelete(Long roomId, String messageId) {
+        messagingTemplate.convertAndSend(
+                "/topic/room." + roomId,
+                ChatMessage.builder()
+                        .type(ChatMessage.MessageType.DELETE)
+                        .roomId(roomId)
+                        .id(messageId)
+                        .build()
+        );
+    }
+
+
 }

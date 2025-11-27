@@ -17,7 +17,7 @@ import java.time.LocalDateTime;
 public class ChatMessage {
 
     public enum MessageType {
-        ENTER, TALK, LEAVE
+        ENTER, TALK, LEAVE, DELETE
     }
 
     @Id
@@ -33,4 +33,7 @@ public class ChatMessage {
 
     private String fileUrl;   // 실제 접근 URL
     private String fileName;  // 원본 파일 이름
+    private boolean deleted;   // false = 정상, true = 삭제됨
+    private LocalDateTime deletedAt; // ★ 삭제 시각
+
 }

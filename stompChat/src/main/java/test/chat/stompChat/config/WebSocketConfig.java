@@ -14,7 +14,7 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
     public void registerStompEndpoints(StompEndpointRegistry registry) {
         registry.addEndpoint("/ws-chat")
                 .setAllowedOriginPatterns("*");
-        // ❌ withSockJS() 제거 – 순수 WebSocket만 사용
+        // withSockJS() 제거 – 순수 WebSocket만 사용
     }
 
     @Override
@@ -23,22 +23,12 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
         // 프론트에서 보낼 메시지 prefix: /app/...
         registry.setApplicationDestinationPrefixes("/app");
 
-        // RabbitMQ STOMP Relay
-//        registry.enableStompBrokerRelay("/topic", "/queue")
-//                .setRelayHost("localhost")
-//                .setRelayPort(61613)
-//                .setVirtualHost("/")                 // 이거 명시
-//                .setSystemLogin("chatuser")
-//                .setSystemPasscode("chatpass")
-//                .setClientLogin("chatuser")
-//                .setClientPasscode("chatpass");
-
         registry.enableStompBrokerRelay("/topic", "/queue")
                 .setRelayHost("localhost")
                 .setRelayPort(61613)
                 .setVirtualHost("/")                 // 이거 명시
-                .setSystemLogin("guest")
-                .setSystemPasscode("guest")
+                .setSystemLogin("server")
+                .setSystemPasscode("server")
                 .setClientLogin("guest")
                 .setClientPasscode("guest");
 
