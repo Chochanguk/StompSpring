@@ -20,6 +20,9 @@ public class NicknameService {
     /** 닉네임 저장 */
     public ActiveUser registerNickname(String nickname) {
 
+        if (nickname ==  "null"){
+            throw new RuntimeException("null은 닉네임 설정이 안됩니다.");
+        }
         // 이미 존재하면 저장 불가
         if (nicknameRepository.existsByNickname(nickname)) {
             throw new RuntimeException("이미 존재하는 닉네임입니다.");
